@@ -18,7 +18,7 @@ script:
   # - bundle exec rubocop
   # - bundle exec rake ci
   - BUNDLE_WITHOUT=development,full_deployment bundle exec rspec --tag @lambda
-  - >-
-    curl -H 'Cache-Control: no-cache'
-    https://raw.githubusercontent.com/navami-pr/fossa_ci_scripts/main/travis_ci/fossa_run.sh |
-    bash -s -- -b $TRAVIS_BUILD_DIR
+  # - >-
+  #   curl -H 'Cache-Control: no-cache'
+  #   https://raw.githubusercontent.com/navami-pr/fossa_ci_scripts/main/travis_ci/fossa_run.sh |
+  #   bash -s -- -b $TRAVIS_BUILD_DIR
