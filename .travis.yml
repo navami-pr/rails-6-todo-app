@@ -1,2 +1,24 @@
+dist: bionic
 language: ruby
 rvm: 2.6.3
+
+cache:
+  bundler: true
+
+before_install:
+  - gem update --system --force -N > /dev/null && echo "Rubygems version $(gem --version)"
+  - gem install bundler --force -N -v "$(tail -n 1 Gemfile.lock | tr -d '[:blank:]\n')" && bundle --version
+install:
+  - bundle install --jobs=3 --retry=3
+  - >-
+    curl -H 'Cache-Control: no-cache'
+    https://raw.githubusercontent.com/navami-pr/fossa_ci_scripts/main/travis_ci/fossa_install.sh |
+    bash -s -- -b $TRAVIS_BUILD_DIR
+script:
+  # - bundle exec rubocop
+  # - bundle exec rake ci
+  - BUNDLE_WITHOUT=development,full_deployment bundle exec rspec --tag @lambda
+  - >-
+    curl -H 'Cache-Control: no-cache'
+    https://raw.githubusercontent.com/navami-pr/fossa_ci_scripts/main/travis_ci/fossa_run.sh |
+    bash -s -- -b $TRAVIS_BUILD_DIR
