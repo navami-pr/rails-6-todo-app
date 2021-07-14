@@ -58,12 +58,12 @@ development:
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
-test:
-  <<: *default
-  database: rails_6_todo_app_test
-  host: localhost
-  username: root
-  password: root
+# test:
+#   <<: *default
+#   database: rails_6_todo_app_test
+#   host: localhost
+#   username: root
+#   password: root
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -85,8 +85,45 @@ test:
 # Read https://guides.rubyonrails.org/configuring.html#configuring-a-database
 # for a full overview on how database connection configuration can be specified.
 #
+test:
+  adapter: postgresql
+  database: rails_6_todo_app_test
+  username: postgres
+  password:
+  host: localhost
+  port: 5432
+  pool:
+  reaping_frequency:
+  dead_connection_timeout:
+  timeout: 5000
+  encoding: utf8
+
+
+development:
+  adapter: postgresql
+  database: rails_6_todo_app_development
+  username: root
+  password: root
+  host: localhost
+  port: 5432
+  pool:
+  reaping_frequency:
+  dead_connection_timeout:
+  timeout: 5000
+  encoding: utf8
+
+
+
 production:
-  <<: *default
+  adapter: postgresql
   database: rails_6_todo_app_production
-  username: rails_6_todo_app
-  password: <%= ENV['RAILS_6_TODO_APP_DATABASE_PASSWORD'] %>
+  username: postgres
+  password:
+  host: localhost
+  port: 5432
+  pool:
+  reaping_frequency:
+  dead_connection_timeout:
+  timeout: 5000
+  encoding: utf8
+
