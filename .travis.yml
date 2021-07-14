@@ -1,54 +1,8 @@
-dist: bionic
 language: ruby
 rvm: 2.6.3
 
-cache: bundler
-env:
-  global:
-  - CUCUMBER_FORMAT=progress
-  - CI_NODE_TOTAL=10
-  - PGPORT=5433
-  matrix:
-  - CI_NODE_INDEX=0
-  - CI_NODE_INDEX=1
-  - CI_NODE_INDEX=2
-  - CI_NODE_INDEX=3
-  - CI_NODE_INDEX=4
-  - CI_NODE_INDEX=5
-  - CI_NODE_INDEX=6
-  - CI_NODE_INDEX=7
-  - CI_NODE_INDEX=8
-  - CI_NODE_INDEX=9
-
-
-bundler_args: --jobs=3 --retry=3
-
-before_install:
-  - gem update --system --force -N > /dev/null && echo "Rubygems version $(gem --version)"
-  - gem install bundler --force -N -v "$(tail -n 1 Gemfile.lock | tr -d '[:blank:]\n')" && bundle --version
-  - bundle config set deployment 'true'
-  - bundle config set without 'development'
-  - sudo apt-get update
-  - sudo apt-get --yes remove postgresql\*
-  - sudo apt-get install -y postgresql-11 postgresql-client-11
-  - sudo cp /etc/postgresql/{9.6,11}/main/pg_hba.conf
-  - sudo service postgresql restart 11
-
-install:
-  - bundle install --jobs=3 --retry=3
-  # - >-
-  #   curl -H 'Cache-Control: no-cache'
-  #   https://raw.githubusercontent.com/navami-pr/fossa_ci_scripts/main/travis_ci/fossa_install.sh |
-  #   bash -s -- -b $TRAVIS_BUILD_DIR
-before_script:
-  - bundle exec rails db:create
-  - bundle exec rails db:migrate
-
 script:
-  # - bundle exec rubocop
-  # - bundle exec rake ci
-  - BUNDLE_WITHOUT=development,full_deployment bundle exec rspec --tag @lambda
-  # - >-
-  #   curl -H 'Cache-Control: no-cache'
-  #   https://raw.githubusercontent.com/navami-pr/fossa_ci_scripts/main/travis_ci/fossa_run.sh |
-  #   bash -s -- -b $TRAVIS_BUILD_DIR
+ — bundle install — jobs=3 — retry=3
+ — bundle exec rake db:create
+ — bundle exec rake db:migrate
+ — bundle exec rspec
